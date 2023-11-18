@@ -42,15 +42,16 @@ pipeline {
         }
         stage("Docker build") {
             steps {
-                sh "docker build -t vandalz12/calculator-cicd ."
+                sh "docker build -t calculator-cicd ."
+                sh "docker tag calculator-cicd vandalz12/calculator-cicd"
             }
         }
         stage("Docker push") {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
                     sh "docker login -u $USER -p $PASSWORD registry.hub.docker.com"
-                    sh "sudo docker push vandalz12/calculator-cicd"
-                    sh "docker rmi vandalz12/calculator-cicd"
+                    sh "docker push vandalz12/calculator-cicd"
+                    sh "docker rmi calculator-cicd vandalz12/calculator-cicd"
                 }
             }
         }

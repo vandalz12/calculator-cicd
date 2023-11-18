@@ -52,7 +52,7 @@ pipeline {
         }
         stage("Deploy to staging") {
             steps {
-                sh "docker run -d --rm -p 8765:8081 --name calculator vandalz12/calculator-cicd"
+                sh "docker run -d --rm -p 8765:8081 --name calculator --network jenkins vandalz12/calculator-cicd"
             }
         }
         stage("Acceptance test") {

@@ -45,5 +45,10 @@ pipeline {
                 sh "docker build -t vandalz12/calculator-cicd ."
             }
         }
+        stage("Docker push") {
+            steps {
+                sh "docker push vandalz12/calculator-cicd"
+            }
+        }
     }
 }

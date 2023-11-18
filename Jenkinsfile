@@ -40,18 +40,13 @@ pipeline {
                 sh "./gradlew build"
             }
         }
-        stage("Docker build") {
-            steps {
-                sh "docker build -t calculator-cicd ."
-                sh "docker tag calculator-cicd vandalz12/calculator-cicd:latest"
-            }
-        }
-        stage("Docker push") {
+        stage("Docker build and push") {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
                     sh "docker login -u $USER -p $PASSWORD"
-                    sh "docker push vandalz12/calculator-cicd:latest"
-                    sh "docker rmi calculator-cicd vandalz12/calculator-cicd:latest"
+                    sh "docker build $USER/calculator-cicd:latest"
+                    sh "docker push $USER/calculator-cicd:latest"
+                    sh "docker rmi $USER/calculator-cicd:latest"
                 }
             }
         }

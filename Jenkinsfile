@@ -48,11 +48,8 @@ pipeline {
         stage("Docker push") {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
-                    def registry_url = "registry.hub.docker.com/"
-                    sh "docker login -u $USER -p $PASSWORD ${registry_url}"
-                    docker.withRegistry("http://${registry_url}", "docker-hub-cred") {
-                        sh "docker push vandalz12/calculator-cicd"
-                    }
+                    sh "docker login -u $USER -p $PASSWORD registry.hub.docker.com"
+                    sh "docker push vandalz12/calculator-cicd"
                 }
             }
         }

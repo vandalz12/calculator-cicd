@@ -49,7 +49,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
                     sh "docker login -u $USER -p $PASSWORD registry.hub.docker.com"
-                    sh "docker push $USER/calculator-cicd:latest"
+                    sh "docker push vandalz12/calculator-cicd"
+                    sh "docker rmi vandalz12/calculator-cicd"
                 }
             }
         }
